@@ -20,7 +20,9 @@ func main() {
 	orderBook.InsertOrder(orderbook.NewOrder(31, 4, orderbook.TYPE_BID))
 
 	// ASKS
-	orderBook.InsertOrder(orderbook.NewOrder(31, 4, orderbook.TYPE_ASK))
+	order := orderbook.NewOrder(31, 4, orderbook.TYPE_ASK)
+	// orderBook.InsertOrder(orderbook.NewOrder(31, 4, orderbook.TYPE_ASK))
+	orderBook.InsertOrder(order)
 	orderBook.InsertOrder(orderbook.NewOrder(32, 5, orderbook.TYPE_ASK))
 	orderBook.InsertOrder(orderbook.NewOrder(32, 5, orderbook.TYPE_ASK))
 	orderBook.InsertOrder(orderbook.NewOrder(32, 8, orderbook.TYPE_ASK))
@@ -29,11 +31,29 @@ func main() {
 	orderBook.InsertOrder(orderbook.NewOrder(36, 1, orderbook.TYPE_ASK))
 
 	// fmt.Printf("%+v", orderBook.BuyOrders.order)
-	fmt.Println("| BIDS |")
-	orderBook.Bids.PrintInorder()
+	// fmt.Println("| BIDS |")
+	// orderBook.Bids.PrintInorder()
 
-	fmt.Println()
+	// fmt.Println()
 
-	fmt.Println("| ASKS |")
+	fmt.Println("| ASKS BEFORE REMOVE |")
+	orderBook.Asks.PrintInorder()
+
+	orderBook.RemoveOrder(order)
+
+	fmt.Println("| ASKS AFTER REMOVE |")
+	orderBook.Asks.PrintInorder()
+
+	orderBook.InsertOrder(orderbook.NewOrder(31, 11, orderbook.TYPE_ASK))
+	orderBook.InsertOrder(order)
+	orderBook.InsertOrder(orderbook.NewOrder(31, 22, orderbook.TYPE_ASK))
+
+	fmt.Println("| ASKS AFTER INSERT |")
+	orderBook.Asks.PrintInorder()
+
+	order.Amount = 15
+	orderBook.UpdateOrder(order)
+
+	fmt.Println("| ASKS AFTER UPDATE |")
 	orderBook.Asks.PrintInorder()
 }

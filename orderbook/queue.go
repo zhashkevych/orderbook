@@ -4,28 +4,38 @@ import "container/list"
 
 type OrderQueue struct {
 	queue *list.List
-
-	price int
 }
 
 func NewOrderQueue() *OrderQueue {
-	return &OrderQueue{list.New(), 0}
+	return &OrderQueue{list.New()}
 }
 
 func (q *OrderQueue) Push(order *Order) {
 	q.queue.PushFront(order)
+}
 
-	q.price = order.price
+func (q *OrderQueue) Remove(order *Order) {
+	for el := q.queue.Front(); el != nil; el = el.Next() {
+		if el.Value.(*Order) == order {
+			q.queue.Remove(el)
+		}
+	}
+}
+
+func (q *OrderQueue) Update(order *Order) {
+	for el := q.queue.Front(); el != nil; el = el.Next() {
+		if el.Value.(*Order).ID == order.ID {
+			q.queue.InsertAfter(order, el)
+
+			q.queue.Remove(el)
+		}
+	}
 }
 
 func (q *OrderQueue) GetLatest() *Order {
 	order := q.queue.Front()
 
 	return order.Value.(*Order)
-}
-
-func (q *OrderQueue) GetPrice() int {
-	return q.price
 }
 
 func (q *OrderQueue) Len() int {

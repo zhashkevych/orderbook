@@ -4,7 +4,6 @@ import "fmt"
 
 // OrderTree implements BST data structure
 type OrderTree struct {
-	// order *Order // todo: order queue
 	orders *OrderQueue
 	price  int
 
@@ -18,58 +17,100 @@ func NewOrderTree(order *Order) *OrderTree {
 
 	return &OrderTree{
 		orders: orders,
-		price:  order.price,
+		price:  order.Price,
 		left:   nil,
 		right:  nil,
 	}
 }
 
 func (t *OrderTree) Insert(order *Order) {
-	if order.price == t.price {
-		// todo: handle this
+	if order.Price == t.price {
 		t.orders.Push(order)
+
 		return
 	}
 
-	if order.price <= t.price {
+	if order.Price <= t.price {
 		if t.left == nil {
 			t.left = NewOrderTree(order)
 		}
 
 		t.left.Insert(order)
-	} else {
-		if t.right == nil {
-			t.right = NewOrderTree(order)
+
+		return
+	}
+
+	if t.right == nil {
+		t.right = NewOrderTree(order)
+	}
+
+	t.right.Insert(order)
+}
+
+func (t *OrderTree) Remove(order *Order) {
+	if order.Price == t.price {
+		t.orders.Remove(order)
+
+		return
+	}
+
+	if order.Price <= t.price {
+		if t.left != nil {
+			t.left.Remove(order)
 		}
 
-		t.right.Insert(order)
+		return
+	}
+
+	if t.right != nil {
+		t.right.Remove(order)
 	}
 }
 
-func (t *OrderTree) FindMin() int {
+func (t *OrderTree) Update(order *Order) {
+	if order.Price == t.price {
+		t.orders.Update(order)
+
+		return
+	}
+
+	if order.Price <= t.price {
+		if t.left != nil {
+			t.left.Update(order)
+		}
+
+		return
+	}
+
+	if t.right != nil {
+		t.right.Update(order)
+	}
+}
+
+func (t *OrderTree) FindMinPrice() int {
 	if t.left == nil {
 		return t.price
 	}
 
-	return t.left.FindMin()
+	return t.left.FindMinPrice()
 }
 
-func (t *OrderTree) FindMax() int {
+func (t *OrderTree) FindMaxPrice() int {
 	if t.right == nil {
 		return t.price
 	}
 
-	return t.left.FindMax()
+	return t.left.FindMaxPrice()
 }
 
-func (t *OrderTree) Find(price int) (OrderTree, bool) {
+func (t *OrderTree) Find(price int) (*OrderTree, bool) {
 	if t == nil {
-		return OrderTree{}, false
+		return &OrderTree{}, false
 	}
 
 	switch {
 	case price == t.price:
-		return *t, true
+		return t, true
 	case price < t.price:
 		return t.left.Find(price)
 	default:
@@ -87,7 +128,7 @@ func (t *OrderTree) PrintInorder() {
 	fmt.Printf("Price: %d | Number of orders: %d\n", t.price, t.orders.Len())
 	orders := t.orders.GetAll()
 	for i, order := range orders {
-		fmt.Printf("\t#%d. Amount: %d\n", i+1, order.amount)
+		fmt.Printf("\t#%d. Amount: %d\n", i+1, order.Amount)
 	}
 	fmt.Println()
 

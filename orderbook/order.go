@@ -1,6 +1,10 @@
 package orderbook
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type OrderType int
 
@@ -10,12 +14,13 @@ const (
 )
 
 type Order struct {
-	price     int
-	amount    int
-	orderType OrderType
-	createdAt time.Time
+	ID        uuid.UUID
+	Price     int
+	Amount    int
+	OrderType OrderType
+	CreatedAt time.Time
 }
 
 func NewOrder(price, amount int, orderType OrderType) *Order {
-	return &Order{price, amount, orderType, time.Now()}
+	return &Order{uuid.New(), price, amount, orderType, time.Now()}
 }
