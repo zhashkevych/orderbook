@@ -33,6 +33,8 @@ func (t *OrderTree) Insert(order *Order) {
 	if order.Price <= t.price {
 		if t.left == nil {
 			t.left = NewOrderTree(order)
+
+			return
 		}
 
 		t.left.Insert(order)
@@ -42,6 +44,8 @@ func (t *OrderTree) Insert(order *Order) {
 
 	if t.right == nil {
 		t.right = NewOrderTree(order)
+
+		return
 	}
 
 	t.right.Insert(order)
