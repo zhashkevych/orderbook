@@ -21,20 +21,14 @@ func main() {
 
 	// ASKS
 	order := orderbook.NewOrder(31, 4, orderbook.TYPE_ASK)
-	// orderBook.InsertOrder(orderbook.NewOrder(31, 4, orderbook.TYPE_ASK))
 	orderBook.InsertOrder(order)
+
 	orderBook.InsertOrder(orderbook.NewOrder(32, 5, orderbook.TYPE_ASK))
 	orderBook.InsertOrder(orderbook.NewOrder(32, 5, orderbook.TYPE_ASK))
 	orderBook.InsertOrder(orderbook.NewOrder(32, 8, orderbook.TYPE_ASK))
 	orderBook.InsertOrder(orderbook.NewOrder(33, 8, orderbook.TYPE_ASK))
 	orderBook.InsertOrder(orderbook.NewOrder(33, 198, orderbook.TYPE_ASK))
 	orderBook.InsertOrder(orderbook.NewOrder(36, 1, orderbook.TYPE_ASK))
-
-	// fmt.Printf("%+v", orderBook.BuyOrders.order)
-	// fmt.Println("| BIDS |")
-	// orderBook.Bids.PrintInorder()
-
-	// fmt.Println()
 
 	fmt.Println("| ASKS BEFORE REMOVE |")
 	orderBook.Asks.PrintInorder()
