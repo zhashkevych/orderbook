@@ -1,6 +1,8 @@
 package orderbook
 
-import "container/list"
+import (
+	"container/list"
+)
 
 type OrderQueue struct {
 	queue *list.List
@@ -11,7 +13,7 @@ func NewOrderQueue() *OrderQueue {
 }
 
 func (q *OrderQueue) Push(order *Order) {
-	q.queue.PushFront(order)
+	q.queue.PushBack(order)
 }
 
 func (q *OrderQueue) Remove(order *Order) {
@@ -33,6 +35,12 @@ func (q *OrderQueue) Update(order *Order) {
 }
 
 func (q *OrderQueue) GetLatest() *Order {
+	order := q.queue.Back()
+
+	return order.Value.(*Order)
+}
+
+func (q *OrderQueue) GetEarliest() *Order {
 	order := q.queue.Front()
 
 	return order.Value.(*Order)

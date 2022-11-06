@@ -14,10 +14,10 @@ const (
 )
 
 type Order struct {
-	ID        uuid.UUID
-	Price     int
-	Amount    int
-	OrderType OrderType
+	ID        uuid.UUID `json:"id"`
+	Price     int       `json:"price"`
+	Amount    int       `json:"amount"`
+	OrderType OrderType `json:"order_type"`
 	CreatedAt time.Time
 }
 

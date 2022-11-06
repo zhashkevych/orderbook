@@ -8,6 +8,11 @@ type OrderBook struct {
 	Bids *OrderTree
 }
 
+type OrderBookResponse struct {
+	Asks []*Order `json:"asks"`
+	Bids []*Order `json:"bids"`
+}
+
 func NewOrderBook() *OrderBook {
 	return &OrderBook{Asks: nil, Bids: nil}
 }
@@ -55,5 +60,24 @@ func (b *OrderBook) UpdateOrder(order *Order) {
 
 	if b.Bids != nil {
 		b.Bids.Update(order)
+	}
+}
+
+func (b *OrderBook) GetResponse() *OrderBookResponse {
+	var bids, asks []*Order
+
+	if b.Asks != nil {
+		asks = make([]*Order, 0)
+		b.Asks.GetAllInOrder(&asks)
+	}
+
+	if b.Bids != nil {
+		bids = make([]*Order, 0)
+		b.Bids.GetAllInOrder(&bids)
+	}
+
+	return &OrderBookResponse{
+		Asks: asks,
+		Bids: bids,
 	}
 }

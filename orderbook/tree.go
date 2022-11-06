@@ -138,3 +138,22 @@ func (t *OrderTree) PrintInorder() {
 
 	t.right.PrintInorder()
 }
+
+func (t *OrderTree) GetAllInOrder(orders *[]*Order) {
+	if t == nil {
+		return
+	}
+
+	t.left.GetAllInOrder(orders)
+
+	// fmt.Printf("Price: %d | Number of orders: %d\n", t.price, t.orders.Len())
+	allFromQueue := t.orders.GetAll()
+	fmt.Println("allFromQueue ", allFromQueue)
+	*orders = append(*orders, allFromQueue...)
+	// for i, order := range orders {
+	// 	fmt.Printf("\t#%d. Amount: %d\n", i+1, order.Amount)
+	// }
+	// fmt.Println()
+
+	t.right.GetAllInOrder(orders)
+}
